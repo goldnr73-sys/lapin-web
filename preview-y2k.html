@@ -74,7 +74,7 @@
       overflow: hidden;
 
       /* ★ 실제 사진 — public/bg-hero.jpg */
-      background-image: url('/bg-hero.jpg');
+      background-image: url('./public/bg-hero.png');
       background-size: cover;
       background-position: center 40%;
       background-color: #4a8060; /* 사진 로드 전 폴백 색상 */
@@ -673,7 +673,7 @@
     document.body.appendChild(banner);
     setTimeout(() => banner.remove(), 6000);
   };
-  testImg.src = '/bg-hero.jpg?' + Date.now();
+  testImg.src = './public/bg-hero.png?' + Date.now();
 </script>
 </body>
 </html>

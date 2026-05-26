@@ -174,4 +174,6 @@ npm run build   # 프로덕션 빌드 확인
 
 ### 파일
 - `preview-y2k.html` — 독립 HTML 프리뷰 (실제 Next.js 코드와 무관)
-- `public/bg-hero.jpg` — 히어로 배경사진 (직접 저장 필요, gitignore 미포함)
+- `public/bg-hero.png` — 히어로 배경사진 (PNG 포맷, 1672×941)
+  - 경로: `./public/bg-hero.png` (file:// 직접 열기 기준 상대경로)
+  - Next.js 서버 통해 볼 때는 `/bg-hero.png` 로 변경 필요
