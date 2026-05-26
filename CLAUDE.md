@@ -164,5 +164,14 @@ npm run build   # 프로덕션 빌드 확인
 - Anything.llm 꽃밭 배경 + 프로스티드 글라스 (Playfair Display 이탤릭)
 - Tavus 스타일 에디토리얼 (크림 배경 + 레트로 컴퓨터 + Instrument Serif)
 
+### 히어로 섹션 최종 업데이트 (HOOK Golf Club 스타일)
+- Nav: 투명 오버레이, 스크롤 시 `scrolled` 클래스로 반투명 다크 배경 전환
+- Hero: `position:absolute` 텍스트 왼쪽 하단 배치 (bottom 12%, left 6%)
+- 헤드라인: `9vw Barlow Condensed 900` 대문자, 서브타이틀 추가
+- 오버레이: 하단만 `rgba(0,0,0,.52)` — 사진이 충분히 보이도록 최소화
+- CTA 버튼: `border-radius: 999px` 필 버튼
+- JS: `bg-hero.jpg` 로드 감지 → 실패 시 6초 안내 배너 표시
+
 ### 파일
 - `preview-y2k.html` — 독립 HTML 프리뷰 (실제 Next.js 코드와 무관)
+- `public/bg-hero.jpg` — 히어로 배경사진 (직접 저장 필요, gitignore 미포함)

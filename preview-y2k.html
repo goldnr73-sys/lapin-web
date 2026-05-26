@@ -21,124 +21,149 @@
     body { font-family: 'Inter', sans-serif; background: var(--off); color: var(--dark); overflow-x: hidden; }
 
     /* ════════════════════════════════
-       1. NAV
+       1. NAV  — 사진 위 투명
     ════════════════════════════════ */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2.5rem;
-      height: 58px;
-      background: rgba(246,245,242,.9);
+      padding: 0 2.8rem;
+      height: 64px;
+      background: transparent;
+      transition: background .3s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,.7);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(0,0,0,.08);
     }
     .nav-left { display: flex; gap: 2rem; list-style: none; }
-    .nav-left a { font-size: .82rem; font-weight: 400; color: #444; text-decoration: none; letter-spacing: .01em; transition: color .15s; }
-    .nav-left a:hover { color: var(--dark); }
+    .nav-left a {
+      font-size: .82rem; font-weight: 400;
+      color: rgba(255,255,255,.75); text-decoration: none;
+      letter-spacing: .04em; text-transform: uppercase; font-size: .72rem;
+      transition: color .15s;
+    }
+    .nav-left a:hover { color: var(--white); }
 
     .nav-logo {
       font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 900; font-size: 1.35rem;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--dark);
+      font-weight: 900; font-size: 1.4rem;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--white);
     }
     .nav-logo span { color: var(--yellow); }
 
     .nav-cta {
-      font-size: .8rem; font-weight: 500;
-      background: none; color: var(--dark);
-      border: 1.5px solid rgba(0,0,0,.35);
-      border-radius: 4px; padding: .42rem 1.1rem;
-      cursor: pointer; transition: background .15s, color .15s;
+      font-size: .72rem; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase;
+      background: none; color: rgba(255,255,255,.8);
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 999px; padding: .45rem 1.2rem;
+      cursor: pointer; transition: background .15s, color .15s, border-color .15s;
     }
-    .nav-cta:hover { background: var(--dark); color: var(--white); border-color: var(--dark); }
+    .nav-cta:hover { background: rgba(255,255,255,.15); color: var(--white); border-color: rgba(255,255,255,.8); }
 
     /* ════════════════════════════════
-       2. HERO
+       2. HERO  — HOOK 골프클럽 무드
     ════════════════════════════════ */
     #hero {
       position: relative;
       width: 100%;
       height: 100svh;
-      min-height: 600px;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
+      min-height: 640px;
       overflow: hidden;
 
-      /* 배경 이미지 — public/bg-hero.jpg 저장 시 자동 적용 */
+      /* ★ 실제 사진 — public/bg-hero.jpg */
       background-image: url('/bg-hero.jpg');
       background-size: cover;
-      background-position: center 35%;
-      background-color: #7ab8d0;
+      background-position: center 40%;
+      background-color: #4a8060; /* 사진 로드 전 폴백 색상 */
     }
 
-    /* CSS 폴백 배경 */
+    /* 폴백 그라디언트 (사진 없을 때) */
     #hero::before {
       content: '';
       position: absolute; inset: 0; z-index: 0;
       background:
-        radial-gradient(ellipse at 28% 15%, rgba(255,255,255,.5) 0%, transparent 28%),
-        radial-gradient(ellipse at 68% 10%, rgba(255,255,255,.4) 0%, transparent 22%),
-        radial-gradient(ellipse at 50% 62%, rgba(110,178,215,.5) 0%, transparent 24%),
+        radial-gradient(ellipse at 30% 20%, rgba(180,220,240,.5) 0%, transparent 35%),
+        radial-gradient(ellipse at 70% 15%, rgba(200,235,245,.4) 0%, transparent 28%),
+        radial-gradient(ellipse at 48% 55%, rgba(90,160,200,.45) 0%, transparent 22%),
         linear-gradient(180deg,
-          #6ab4e4 0%, #90ccf0 14%, #b0daf0 24%,
-          #b8e0c0 35%, #90c870 46%, #88c068 54%,
-          #80b8d0 62%, #70b050 72%, #98cc78 85%, #a8d880 100%
+          #7abce8 0%, #9dd0f0 12%, #b8e0f0 22%,
+          #b0d8b0 33%, #80be68 45%, #70b458 55%,
+          #7ab8d0 62%, #68aa48 70%, #8ec468 82%, #a0d078 100%
         );
       pointer-events: none;
     }
 
-    /* 그라디언트 오버레이 (텍스트 가독성) */
+    /* 오버레이 — 사진이 충분히 보이도록 최소화
+       왼쪽 하단에만 살짝 어둡게 (텍스트 가독성) */
     #hero::after {
       content: '';
       position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,.18) 0%,
-        rgba(0,0,0,.28) 45%,
-        rgba(0,0,0,.42) 100%
-      );
+      background:
+        linear-gradient(
+          to top,
+          rgba(0,0,0,.52) 0%,
+          rgba(0,0,0,.28) 35%,
+          rgba(0,0,0,.08) 65%,
+          transparent 100%
+        );
       pointer-events: none;
     }
 
+    /* 텍스트 — HOOK 스타일: 왼쪽 하단 */
     .hero-inner {
-      position: relative; z-index: 2;
-      display: flex; flex-direction: column;
-      align-items: center; gap: 1.2rem;
-      padding: 0 1.5rem;
+      position: absolute;
+      z-index: 2;
+      bottom: 12%;
+      left: 6%;
+      right: 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.4rem;
     }
 
     .hero-label {
       font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700; font-size: .8rem;
-      letter-spacing: .18em; text-transform: uppercase;
+      font-weight: 700; font-size: .75rem;
+      letter-spacing: .22em; text-transform: uppercase;
       color: var(--yellow);
     }
 
     .hero-h1 {
       font-family: 'Barlow Condensed', sans-serif;
       font-weight: 900;
-      font-size: clamp(2.8rem, 7vw, 6.4rem);
-      line-height: 1.0;
-      letter-spacing: .02em;
+      font-size: clamp(3.6rem, 9vw, 8.5rem);
+      line-height: .95;
+      letter-spacing: -.01em;
       text-transform: uppercase;
       color: var(--white);
-      max-width: 820px;
-      text-shadow: 0 2px 24px rgba(0,0,0,.3);
+      max-width: 900px;
+      text-shadow: 0 2px 32px rgba(0,0,0,.25);
+    }
+
+    .hero-sub {
+      font-size: clamp(.88rem, 1.4vw, 1rem);
+      font-weight: 300;
+      color: rgba(255,255,255,.82);
+      line-height: 1.65;
+      max-width: 480px;
+      text-shadow: 0 1px 8px rgba(0,0,0,.3);
     }
 
     .hero-btn {
       font-family: 'Inter', sans-serif;
-      font-size: .85rem; font-weight: 500;
+      font-size: .82rem; font-weight: 500;
       background: var(--yellow); color: var(--dark);
-      border: none; border-radius: 4px;
-      padding: .72rem 1.8rem;
-      cursor: pointer; margin-top: .4rem;
-      transition: opacity .15s;
+      border: none; border-radius: 999px;
+      padding: .78rem 2rem;
+      cursor: pointer;
+      transition: opacity .15s, transform .15s;
+      letter-spacing: .01em;
     }
-    .hero-btn:hover { opacity: .88; }
+    .hero-btn:hover { opacity: .9; transform: translateY(-1px); }
 
     /* ════════════════════════════════
        3. ABOUT
@@ -458,8 +483,13 @@
   <div class="hero-inner">
     <span class="hero-label">Web Agency — Est. 2024</span>
     <h1 class="hero-h1">
-      We connect your<br/>business to the web.
+      We connect<br/>your business<br/>to the web.
     </h1>
+    <p class="hero-sub">
+      From landing pages to corporate websites —<br/>
+      Lapin takes your vision from strategy and design<br/>
+      to development and launch.
+    </p>
     <button class="hero-btn" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
       Explore our services →
     </button>
@@ -613,5 +643,37 @@
   <p class="footer-copy">© 2026 Lapin Agency</p>
 </footer>
 
+<script>
+  /* Nav: 스크롤 시 반투명 배경 */
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  /* bg-hero.jpg 존재 여부 확인 후 폴백 그라디언트 제거 */
+  const hero = document.getElementById('hero');
+  const testImg = new Image();
+  testImg.onload = () => {
+    hero.style.setProperty('background-color', 'transparent');
+    /* 이미지 로드 성공 시 ::before 폴백 숨기기 */
+    const style = document.createElement('style');
+    style.textContent = '#hero::before { display: none; }';
+    document.head.appendChild(style);
+  };
+  testImg.onerror = () => {
+    /* 이미지 없음 — 폴백 그라디언트 유지, 안내 배너 표시 */
+    const banner = document.createElement('div');
+    banner.style.cssText = `
+      position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%);
+      background:#111; color:#fff; font-family:'Inter',sans-serif;
+      font-size:.78rem; padding:.6rem 1.2rem; border-radius:6px; z-index:999;
+      white-space:nowrap; box-shadow:0 4px 16px rgba(0,0,0,.3);
+    `;
+    banner.textContent = '📷 사진을 public/bg-hero.jpg 로 저장하면 배경이 적용됩니다';
+    document.body.appendChild(banner);
+    setTimeout(() => banner.remove(), 6000);
+  };
+  testImg.src = '/bg-hero.jpg?' + Date.now();
+</script>
 </body>
 </html>
