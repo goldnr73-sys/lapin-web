@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapin Agency</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yellow:   #c8d800;
+      --dark:     #111111;
+      --white:    #ffffff;
+      --off:      #f6f5f2;
+      --gray:     #888880;
+      --border:   #e4e0d8;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--off); color: var(--dark); overflow-x: hidden; }
+
+    /* ════════════════════════════════
+       1. NAV
+    ════════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 58px;
+      background: rgba(246,245,242,.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0,0,0,.08);
+    }
+    .nav-left { display: flex; gap: 2rem; list-style: none; }
+    .nav-left a { font-size: .82rem; font-weight: 400; color: #444; text-decoration: none; letter-spacing: .01em; transition: color .15s; }
+    .nav-left a:hover { color: var(--dark); }
+
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 1.35rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--dark);
+    }
+    .nav-logo span { color: var(--yellow); }
+
+    .nav-cta {
+      font-size: .8rem; font-weight: 500;
+      background: none; color: var(--dark);
+      border: 1.5px solid rgba(0,0,0,.35);
+      border-radius: 4px; padding: .42rem 1.1rem;
+      cursor: pointer; transition: background .15s, color .15s;
+    }
+    .nav-cta:hover { background: var(--dark); color: var(--white); border-color: var(--dark); }
+
+    /* ════════════════════════════════
+       2. HERO
+    ════════════════════════════════ */
+    #hero {
+      position: relative;
+      width: 100%;
+      height: 100svh;
+      min-height: 600px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      overflow: hidden;
+
+      /* 배경 이미지 — public/bg-hero.jpg 저장 시 자동 적용 */
+      background-image: url('/bg-hero.jpg');
+      background-size: cover;
+      background-position: center 35%;
+      background-color: #7ab8d0;
+    }
+
+    /* CSS 폴백 배경 */
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse at 28% 15%, rgba(255,255,255,.5) 0%, transparent 28%),
+        radial-gradient(ellipse at 68% 10%, rgba(255,255,255,.4) 0%, transparent 22%),
+        radial-gradient(ellipse at 50% 62%, rgba(110,178,215,.5) 0%, transparent 24%),
+        linear-gradient(180deg,
+          #6ab4e4 0%, #90ccf0 14%, #b0daf0 24%,
+          #b8e0c0 35%, #90c870 46%, #88c068 54%,
+          #80b8d0 62%, #70b050 72%, #98cc78 85%, #a8d880 100%
+        );
+      pointer-events: none;
+    }
+
+    /* 그라디언트 오버레이 (텍스트 가독성) */
+    #hero::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,.18) 0%,
+        rgba(0,0,0,.28) 45%,
+        rgba(0,0,0,.42) 100%
+      );
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1.2rem;
+      padding: 0 1.5rem;
+    }
+
+    .hero-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: .8rem;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--yellow);
+    }
+
+    .hero-h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.8rem, 7vw, 6.4rem);
+      line-height: 1.0;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: var(--white);
+      max-width: 820px;
+      text-shadow: 0 2px 24px rgba(0,0,0,.3);
+    }
+
+    .hero-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: .85rem; font-weight: 500;
+      background: var(--yellow); color: var(--dark);
+      border: none; border-radius: 4px;
+      padding: .72rem 1.8rem;
+      cursor: pointer; margin-top: .4rem;
+      transition: opacity .15s;
+    }
+    .hero-btn:hover { opacity: .88; }
+
+    /* ════════════════════════════════
+       3. ABOUT
+    ════════════════════════════════ */
+    #about {
+      background: var(--white);
+      padding: 7rem 2.5rem 6rem;
+    }
+    .about-inner { max-width: 1060px; margin: 0 auto; }
+
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: .75rem;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 1.25rem;
+    }
+
+    .about-h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.9rem, 4.5vw, 3.6rem);
+      line-height: 1.05;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: var(--dark);
+      max-width: 820px;
+      margin-bottom: 3rem;
+    }
+    .about-h2 em {
+      font-style: italic;
+      color: var(--dark);
+      font-weight: 900;
+    }
+
+    /* 포토 그리드 */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1.5fr 1fr 1.2fr;
+      gap: .75rem;
+      margin-bottom: 4rem;
+      height: 220px;
+    }
+    .photo-cell {
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .photo-cell.tall { grid-row: span 1; align-self: stretch; }
+    .pg-1 { background: linear-gradient(140deg, #8cbf70, #6a9e50); }
+    .pg-2 { background: linear-gradient(140deg, #5a8ecc, #3a6eb0); }
+    .pg-3 { background: linear-gradient(140deg, #c89060, #a87040); }
+    .pg-4 { background: linear-gradient(140deg, #70a8c8, #5090b0); }
+    .pg-5 { background: linear-gradient(140deg, #a0c878, #78a858); }
+
+    /* 스탯 + 텍스트 스플릿 */
+    .about-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .split-stat {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      line-height: 1.05;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: var(--dark);
+    }
+    .split-stat em { font-style: italic; }
+    .split-body {
+      font-size: .9rem; font-weight: 300;
+      color: #555; line-height: 1.8;
+      padding-top: .5rem;
+    }
+
+    /* ════════════════════════════════
+       4. WHY US
+    ════════════════════════════════ */
+    #why {
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      padding: 6rem 2.5rem 7rem;
+    }
+    .why-inner { max-width: 1060px; margin: 0 auto; }
+
+    .why-h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: var(--dark);
+      max-width: 700px;
+      margin-bottom: 4rem;
+    }
+    .why-h2 em { font-style: italic; }
+
+    /* 번호 아이템들 */
+    .why-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .why-item:last-child { border-bottom: 1px solid var(--border); }
+
+    .why-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 1.05rem;
+      color: var(--yellow);
+      letter-spacing: .05em;
+      min-width: 36px;
+    }
+
+    .why-text {}
+    .why-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: .4rem;
+    }
+    .why-desc {
+      font-size: .85rem; font-weight: 300;
+      color: #666; line-height: 1.7;
+      max-width: 400px;
+    }
+
+    .why-img {
+      width: 180px; height: 110px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .wi-1 { background: linear-gradient(140deg, #4e98c8, #2e78b0); }
+    .wi-2 { background: linear-gradient(140deg, #90bc68, #68982e); }
+    .wi-3 { background: linear-gradient(140deg, #c8a068, #a8784e); }
+
+    /* ════════════════════════════════
+       5. SERVICES
+    ════════════════════════════════ */
+    #services {
+      background: var(--off);
+      border-top: 1px solid var(--border);
+      padding: 6rem 2.5rem;
+    }
+    .services-inner { max-width: 1060px; margin: 0 auto; }
+
+    .services-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 3rem; gap: 2rem;
+    }
+    .services-h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      letter-spacing: .02em; text-transform: uppercase;
+      color: var(--dark); line-height: 1.05;
+    }
+    .services-h2 em { font-style: italic; }
+    .services-sub {
+      font-size: .85rem; color: var(--gray);
+      max-width: 300px; text-align: right; line-height: 1.7;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .s-card {
+      background: var(--white);
+      padding: 2.25rem 2rem;
+      transition: background .15s;
+    }
+    .s-card:hover { background: var(--off); }
+    .s-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 2.2rem;
+      color: rgba(200,216,0,.3);
+      letter-spacing: .02em;
+      margin-bottom: .6rem;
+    }
+    .s-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 1.3rem;
+      letter-spacing: .04em; text-transform: uppercase;
+      color: var(--dark); margin-bottom: .6rem;
+    }
+    .s-desc { font-size: .85rem; color: var(--gray); line-height: 1.7; margin-bottom: 1.25rem; }
+    .s-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .s-tag {
+      font-size: .7rem; font-weight: 500;
+      letter-spacing: .05em; text-transform: uppercase;
+      background: var(--off); color: #666;
+      border: 1px solid var(--border);
+      border-radius: 3px; padding: .2rem .55rem;
+    }
+
+    /* ════════════════════════════════
+       6. CTA
+    ════════════════════════════════ */
+    #cta {
+      background: var(--dark);
+      padding: 8rem 2.5rem;
+      text-align: center;
+    }
+    .cta-inner { max-width: 760px; margin: 0 auto; }
+    .cta-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: .75rem;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--yellow); margin-bottom: 1.25rem;
+    }
+    .cta-h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      line-height: 1.02;
+      letter-spacing: .02em; text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .cta-h2 em { font-style: italic; color: var(--yellow); }
+    .cta-sub {
+      font-size: .9rem; font-weight: 300;
+      color: rgba(255,255,255,.55); line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .cta-btn-y {
+      font-size: .9rem; font-weight: 500;
+      background: var(--yellow); color: var(--dark);
+      border: none; border-radius: 4px; padding: .8rem 2rem;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .cta-btn-y:hover { opacity: .88; }
+    .cta-btn-o {
+      font-size: .9rem; font-weight: 400;
+      background: none; color: rgba(255,255,255,.6);
+      border: 1.5px solid rgba(255,255,255,.25);
+      border-radius: 4px; padding: .8rem 2rem;
+      cursor: pointer; transition: border-color .15s, color .15s;
+    }
+    .cta-btn-o:hover { border-color: rgba(255,255,255,.6); color: var(--white); }
+    .cta-email {
+      margin-top: 2rem; font-size: .82rem;
+      color: rgba(255,255,255,.3);
+    }
+    .cta-email a { color: rgba(255,255,255,.5); text-decoration: none; }
+    .cta-email a:hover { color: var(--white); }
+
+    /* ════════════════════════════════
+       FOOTER
+    ════════════════════════════════ */
+    footer {
+      background: #0a0a0a;
+      border-top: 1px solid #1e1e1e;
+      padding: 1.75rem 2.5rem;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 1.1rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--yellow); }
+    .footer-links { display: flex; gap: 1.75rem; }
+    .footer-links a { font-size: .78rem; color: rgba(255,255,255,.35); text-decoration: none; transition: color .15s; }
+    .footer-links a:hover { color: rgba(255,255,255,.7); }
+    .footer-copy { font-size: .75rem; color: rgba(255,255,255,.2); }
+
+    /* ════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════ */
+    @media (max-width: 768px) {
+      nav { padding: 0 1.25rem; }
+      .nav-left { display: none; }
+      .photo-grid { grid-template-columns: 1fr 1fr 1fr; height: 160px; }
+      .photo-grid .photo-cell:nth-child(4),
+      .photo-grid .photo-cell:nth-child(5) { display: none; }
+      .about-split { grid-template-columns: 1fr; gap: 2rem; }
+      .why-item { grid-template-columns: auto 1fr; }
+      .why-img { display: none; }
+      .services-top { flex-direction: column; align-items: flex-start; }
+      .services-sub { text-align: left; }
+      footer { flex-direction: column; gap: .75rem; }
+      .footer-links { flex-wrap: wrap; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav>
+  <ul class="nav-left">
+    <li><a href="#about">About</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#services">Services</a></li>
+  </ul>
+  <div class="nav-logo">LAPIN<span>.</span></div>
+  <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Contact</button>
+</nav>
+
+<!-- ════ HERO ════ -->
+<section id="hero">
+  <div class="hero-inner">
+    <span class="hero-label">Web Agency — Est. 2024</span>
+    <h1 class="hero-h1">
+      We connect your<br/>business to the web.
+    </h1>
+    <button class="hero-btn" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+      Explore our services →
+    </button>
+  </div>
+</section>
+
+<!-- ════ ABOUT ════ -->
+<section id="about">
+  <div class="about-inner">
+    <p class="section-label">About us</p>
+    <h2 class="about-h2">
+      We make sure <em>every website</em><br/>
+      becomes not just a page,<br/>
+      but your most powerful<br/>
+      business tool.
+    </h2>
+
+    <!-- 포토 그리드 -->
+    <div class="photo-grid">
+      <div class="photo-cell pg-1"></div>
+      <div class="photo-cell pg-2"></div>
+      <div class="photo-cell pg-3"></div>
+      <div class="photo-cell pg-4"></div>
+      <div class="photo-cell pg-5"></div>
+    </div>
+
+    <!-- 스플릿 텍스트 -->
+    <div class="about-split">
+      <div class="split-stat">
+        Websites that<br/><em>change</em><br/>businesses.
+      </div>
+      <div class="split-body">
+        We bring together founders and teams who don't just want a website — they want a platform that works for them 24/7. We're a studio obsessed with craft, clarity, and conversion. Every project we take on, we believe the best results come from truly understanding your business first.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ WHY US ════ -->
+<section id="why">
+  <div class="why-inner">
+    <p class="section-label">Why Lapin?</p>
+    <h2 class="why-h2">
+      Websites where<br/><em>everything</em><br/>just works.
+    </h2>
+
+    <div class="why-item">
+      <span class="why-num">01</span>
+      <div class="why-text">
+        <div class="why-title">Speed</div>
+        <p class="why-desc">We personally audit performance, hosting, and every dependency. Average Time to First Byte under 200ms. Your users never wait.</p>
+      </div>
+      <div class="why-img wi-1"></div>
+    </div>
+
+    <div class="why-item">
+      <span class="why-num">02</span>
+      <div class="why-text">
+        <div class="why-title">Quality</div>
+        <p class="why-desc">Pixel-perfect design, clean code, and zero compromise. We work only with proven stacks — Next.js, Tailwind, Supabase — and stand behind every line.</p>
+      </div>
+      <div class="why-img wi-2"></div>
+    </div>
+
+    <div class="why-item">
+      <span class="why-num">03</span>
+      <div class="why-text">
+        <div class="why-title">Support</div>
+        <p class="why-desc">Launch isn't the end. We're your long-term partner — edits, updates, new features. One message away, always.</p>
+      </div>
+      <div class="why-img wi-3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ SERVICES ════ -->
+<section id="services">
+  <div class="services-inner">
+    <div class="services-top">
+      <div>
+        <p class="section-label">What we do</p>
+        <h2 class="services-h2">
+          The right service<br/><em>for your stage.</em>
+        </h2>
+      </div>
+      <p class="services-sub">Two focused offerings — built around what growing businesses actually need.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="s-card">
+        <div class="s-num">01</div>
+        <div class="s-name">Landing Page</div>
+        <p class="s-desc">A sharp, conversion-optimised one-pager that tells your story and drives action. Live in two weeks.</p>
+        <div class="s-tags">
+          <span class="s-tag">1 Page</span>
+          <span class="s-tag">Mobile Ready</span>
+          <span class="s-tag">SEO</span>
+          <span class="s-tag">2 Weeks</span>
+        </div>
+      </div>
+      <div class="s-card">
+        <div class="s-num">02</div>
+        <div class="s-name">Corporate Website</div>
+        <p class="s-desc">Multi-page presence with admin, CMS integration, and everything a growing company needs to look the part.</p>
+        <div class="s-tags">
+          <span class="s-tag">Multi-page</span>
+          <span class="s-tag">Admin Panel</span>
+          <span class="s-tag">CMS</span>
+          <span class="s-tag">4 Weeks</span>
+        </div>
+      </div>
+      <div class="s-card">
+        <div class="s-num">03</div>
+        <div class="s-name">Redesign</div>
+        <p class="s-desc">Your site exists but it's not working. We audit, redesign, and rebuild it from the ground up.</p>
+        <div class="s-tags">
+          <span class="s-tag">Audit</span>
+          <span class="s-tag">UX Overhaul</span>
+          <span class="s-tag">Migration</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CTA ════ -->
+<section id="cta">
+  <div class="cta-inner">
+    <p class="cta-label">Let's build something</p>
+    <h2 class="cta-h2">
+      Ready to make your<br/>website <em>work for you?</em>
+    </h2>
+    <p class="cta-sub">Drop us a line — we'll respond within 24 hours<br/>and have a proposal ready within the week.</p>
+    <div class="cta-btns">
+      <button class="cta-btn-y">Get started</button>
+      <button class="cta-btn-o">View portfolio</button>
+    </div>
+    <p class="cta-email">or reach out directly — <a href="mailto:hello@lapin.kr">hello@lapin.kr</a></p>
+  </div>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="footer-logo">LAPIN<span>.</span></div>
+  <nav class="footer-links">
+    <a href="#about">About</a>
+    <a href="#why">Why Us</a>
+    <a href="#services">Services</a>
+    <a href="mailto:hello@lapin.kr">hello@lapin.kr</a>
+  </nav>
+  <p class="footer-copy">© 2026 Lapin Agency</p>
+</footer>
+
+</body>
+</html>
